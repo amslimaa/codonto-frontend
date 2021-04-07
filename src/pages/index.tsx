@@ -1,65 +1,50 @@
 import Head from 'next/head';
 
-import {GetServerSideProps} from 'next'
-
-import { CompletedChallenges } from "../components/CompletedChallenges";
-import { Countdown } from "../components/Countdown";
-import { ExperienceBar } from "../components/ExperienceBar";
-import { Profile } from "../components/Profile";
-import { ChallengeBox } from "../components/ChallengeBox";
-import { CountdownProvider} from '../context/CountdownContext'
-
 import styles from '../styles/pages/Home.module.css';
-import { ChallegesProvider } from '../context/ChallengeContext';
+import { MainContainer, LogoContainer, SectionsContainer } from '../styled'; 
 
-interface HomeProps {
-  level: number;
-  currentExperience: number;
-  challengesCompleted: number;
-}
 
-export default function Home(props: HomeProps)  {
+
+export default function Home()  {
   return (
-    <ChallegesProvider 
-      level={props.level}
-      currentExperience={props.currentExperience}
-      challengesCompleted={props.challengesCompleted}
-    >
-      <div className={styles.container}>
-        <Head>
-          <title>Inicio | Move.it</title>
-        </Head>
-        <ExperienceBar />
+    <MainContainer>
+      <LogoContainer>
+        <img src="codonto_image.png" alt=""/>
+      </LogoContainer>
+      <SectionsContainer>
+        <h1>Bem vindo ao Codonto</h1>
+        <div className="section-one">
+          <div className="left">
+            <p className="book-text">
+              Um projeto de Extensão
+            </p>
+            <button className="book-button">
+              Agendar Consulta
+            </button>
+          </div>
+          <div className="right">
+            <img src="codonto_people.svg"  alt=""/>
+          </div>
+        </div>
 
-        <CountdownProvider>
-          <section >
-            <div>
-              <Profile />
-              <CompletedChallenges/>
-              <Countdown />
-            </div>
-            <div>
-              <ChallengeBox />
-            </div>
-          </section>
-        </CountdownProvider>
-        
-      </div>
-    </ChallegesProvider>
+      </SectionsContainer>
+    </MainContainer>
   )
 }
 
-export const getServerSideProps:  GetServerSideProps =  async (ctx) => {
 
-
-  const {level, currentExperience, challengesCompleted} = ctx.req.cookies;
-
-  return {
-    props: {
-      level: Number(level), 
-      currentExperience: Number(currentExperience), 
-      challengesCompleted: Number(challengesCompleted)
-    }
-  }
-
-}
+// export default function Home()  {
+//   return (
+//     <div className={styles.container}>
+//       <div className={styles.logo_container}>
+//         <img src="codonto_image.png" alt=""/>
+//       </div>
+//       <div className={styles.sections_container}>
+//         <h1>Bem vindo ao Codonto</h1>
+//         <div className={styles.section}>
+//           <div className={style}></div>
+//         </div>
+//       </div>
+//     </div>
+//   )
+// }
