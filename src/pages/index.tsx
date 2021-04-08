@@ -13,10 +13,13 @@ export default function Home()  {
       </LogoContainer>
       <SectionsContainer>
         <h1>Bem vindo ao Codonto</h1>
-        <div className="section-one">
+        <div className="section">
           <div className="left">
             <p className="book-text">
-              Um projeto de Extensão
+              Um projeto de extenção da Univeridade Federal do Piauí....
+            </p>
+            <p className="book-text">
+              Agendar consulta nas clinicas escola...
             </p>
             <button className="book-button">
               Agendar Consulta
@@ -26,25 +29,36 @@ export default function Home()  {
             <img src="codonto_people.svg"  alt=""/>
           </div>
         </div>
-
+        <div className="section">
+          <div className="right">
+           <img src="codonto-quiz.svg"  alt=""/>
+          </div>
+          <div className="left">
+            <p className="book-text">
+              Você sabe o que mudou nas medidas de biossegurança durante aa pandemia de COVID-19?
+            </p>
+            <p className="book-text">
+            Teste seus conhecimentos com o Codonto Quiz, um jogo de perguntas e respostas que tem com o intuito a divulgação de conteúdos relacionados a Biossegurança em procedimentos odontológicos.
+            </p>
+            <button className="book-button">
+              Codonto Quiz
+            </button>
+          </div>
+        </div>
+        <div className="section">
+          <div className="left">
+            <p className="book-text">
+              Acesse nosso Blog... 
+            </p>
+            <button className="book-button" disabled>
+              Em breve
+            </button>
+          </div>
+          <div className="right">
+            <img src="codonto-blog.svg"  alt=""/>
+          </div>
+        </div>
       </SectionsContainer>
     </MainContainer>
   )
 }
-
-
-// export default function Home()  {
-//   return (
-//     <div className={styles.container}>
-//       <div className={styles.logo_container}>
-//         <img src="codonto_image.png" alt=""/>
-//       </div>
-//       <div className={styles.sections_container}>
-//         <h1>Bem vindo ao Codonto</h1>
-//         <div className={styles.section}>
-//           <div className={style}></div>
-//         </div>
-//       </div>
-//     </div>
-//   )
-// }

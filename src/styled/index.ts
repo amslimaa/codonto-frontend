@@ -13,31 +13,36 @@ export const LogoContainer = styled.div`
 `;
 
 export const SectionsContainer = styled.div`
+    padding: 2rem 5rem  2rem 2rem;
     display:flex;
     flex: 1;
     flex-direction: column;
     h1 {
       text-align: center;
       color: var(--orange);
+      padding-bottom: 50px;
     }
-    .section-one {
+    .section {
       display: flex;
       flex: 1;
       flex-direction: row;
-      background-color: red;
+      padding-bottom: 10rem;
       .left {
-        flex: 1;
-        padding: 50px;
-        background-color: red;
+        flex:1;
+        display: flex;
         flex-direction: column;
-        text-align: center;
+        justify-content: center;
+        align-items: center;
         .book-text{
-          font-size: 1rem;
-          color: #000000;
+          font-size: 1.5rem;
+          color: var(--orange);
+          font-weight: 700;
           text-align: center;
+          padding-bottom: 50px;
         }
         .book-button {
-          padding: 20px;
+          font-weight: 700;
+          padding: 20px 70px 20px 70px;
           border-radius: 5px;
           border-style: none;
           background-color: var(--orange);
@@ -48,10 +53,17 @@ export const SectionsContainer = styled.div`
           }
         }
       }
-      .right { 
+      .right {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         flex: 1;
-        background-color: blue;
+        img {
+          width: 30rem;
+          height: 30rem;
+        }
       }
     }
+    
     
 `;
