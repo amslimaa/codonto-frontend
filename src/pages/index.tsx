@@ -1,13 +1,15 @@
 import Head from 'next/head';
 
-import styles from '../styles/pages/Home.module.css';
+import Link  from 'next/link';
+
 import { MainContainer, LogoContainer, SectionsContainer } from '../styled'; 
-
-
 
 export default function Home()  {
   return (
     <MainContainer>
+      <Head>
+        <title>Codonto - UFPI</title>
+      </Head>
       <LogoContainer>
         <img src="codonto_image.png" alt=""/>
       </LogoContainer>
@@ -22,7 +24,9 @@ export default function Home()  {
               Agendar consulta nas clinicas escola...
             </p>
             <button className="book-button">
-              Agendar Consulta
+              <Link href="/booking">
+                <a>Agendar consulta</a> 
+              </Link>
             </button>
           </div>
           <div className="right">
