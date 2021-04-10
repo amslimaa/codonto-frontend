@@ -24,7 +24,10 @@ export default function booking(){
             <input type="date" name="date-born" placeholder="Data de nascimento"/>
 
             <label htmlFor="sex">Sexo</label>
-            <input type="text" name="sex"placeholder="Sexo M/F"/>
+            <select name="sex" >
+              <option value="Masculino">Masculino</option>
+              <option value="Feminino">Feminino</option>
+            </select>
 
             <button className="button" type="submit">Continuar para anmnese</button>
           </form>

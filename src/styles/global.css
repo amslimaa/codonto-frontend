@@ -34,7 +34,9 @@ body {
 body,
 input,
 textarea,
-button {
+button,
+select
+{
   font: 400 1rem "Inter", sans-serif;
 }
 .button {

@@ -18,6 +18,7 @@ export const MainContainer = styled.div`
         text-align: center;
         font-size: 2rem;
         padding-bottom: 3rem;
+        color: var(--white);
       }
       display: flex;
       flex: 25;
@@ -28,7 +29,8 @@ export const MainContainer = styled.div`
       align-items: center;
       justify-content: center;
 
-      background-color: #F2C185;
+      background-color: #3B8DBF;
+
       form input {
         width: 100%;
         height: 60px;
@@ -38,13 +40,8 @@ export const MainContainer = styled.div`
         padding: 0 24px;
         margin-bottom: 1rem;
       }
-      select {
-        width: 100%;
-        height: 60px;
-        color: #333;
-        border: 1px solid #dcdce6;
-        border-radius: 8px;
-        padding: 0 24px;
+      label{      
+        color: var(--white);
       }
     }
     .right{
