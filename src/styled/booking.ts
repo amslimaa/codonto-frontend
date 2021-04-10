@@ -9,6 +9,10 @@ export const MainContainer = styled.div`
   .section {
     height: 100vh;
     display: flex;
+    @media (max-width: 620px){
+    align-items:center;
+    flex-direction: column;
+    }
     .left{
       h2{
         padding-bottom: 4rem;
@@ -35,7 +39,9 @@ export const MainContainer = styled.div`
       
     }
     .right{
-      
+      @media(max-width: 620px){
+        display: none;
+      }
       display:flex;
       flex: 75;
       
