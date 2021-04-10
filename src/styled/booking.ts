@@ -15,7 +15,9 @@ export const MainContainer = styled.div`
     }
     .left{
       h2{
-        padding-bottom: 4rem;
+        text-align: center;
+        font-size: 2rem;
+        padding-bottom: 3rem;
       }
       display: flex;
       flex: 25;
@@ -36,7 +38,6 @@ export const MainContainer = styled.div`
         border-radius: 8px;
         padding: 0 24px;
       }
-      
     }
     .right{
       @media(max-width: 620px){

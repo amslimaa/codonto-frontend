@@ -8,8 +8,10 @@ export default function booking(){
       <Head>
         <title>Agendamento CE - UFPI</title>
       </Head>
+       
       <div className="section">
         <div className="left">
+          <img src="ufpi.svg" alt=""/>
           <h2>Agendamento Clínica Escola UFPI</h2>
           <form action="">
             <label htmlFor="name">Nome</label>
