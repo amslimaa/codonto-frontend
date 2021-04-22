@@ -6,14 +6,15 @@ import * as yup from 'yup';
 
 import { yupResolver } from '@hookform/resolvers/yup'
 
-import api from '../services/api';
+import api from '../../services/api';
 
-import { MainContainer } from '../styled/booking';
+import { MainContainer } from '../../styled/pacient/booking';
 
 import swal from 'sweetalert';
+import Link from 'next/link';
 
 
-export default function booking() {
+export default function pacient() {
 
   type inputForms = {
     name: string,
@@ -80,10 +81,12 @@ export default function booking() {
             {errors.gen && <span className='errorMessage'>{errors.gen.message}</span> }
 
             <button className="button" type="submit">Continuar para anmnese</button>
+
+            <Link href='/pacient/consult'>Agendamentos</Link>
           </form>
         </div>
         <div className="right">
-          <img src="Cadastro.svg" alt="Cadastro img" />
+          <img src="../Cadastro.svg" alt="Cadastro img" />
         </div>
       </div>
     </MainContainer>

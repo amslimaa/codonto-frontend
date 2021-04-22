@@ -24,7 +24,7 @@ export default function Home()  {
               Agendar consulta nas clinicas escola...
             </p>
             <button className="book-button">
-              <Link href="/booking" passHref>
+              <Link href="/pacient" passHref>
                 <a>Agendar consulta</a> 
               </Link>
             </button>
