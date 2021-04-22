@@ -33,7 +33,6 @@ export default function booking() {
   const { register, handleSubmit, formState: { errors } } = useForm<inputForms>({
     resolver: yupResolver(pacientFormSchema)
   });
-  console.log(errors);
   const onSubmit = async (data: inputForms) => {
     try {
       const response = await api.post('/pacients', data);
