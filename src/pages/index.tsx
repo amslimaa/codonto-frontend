@@ -24,7 +24,7 @@ export default function Home()  {
               Agendar consulta nas clinicas escola...
             </p>
             <button className="book-button">
-              <Link href="/booking">
+              <Link href="/booking" passHref>
                 <a>Agendar consulta</a> 
               </Link>
             </button>
@@ -42,8 +42,8 @@ export default function Home()  {
               Você sabe o que mudou nas medidas de biossegurança durante aa pandemia de COVID-19?
             </p>
             <p className="book-text">
-            Teste seus conhecimentos com o Codonto Quiz, um jogo de perguntas e respostas que tem com o intuito a divulgação de conteúdos relacionados a Biossegurança em procedimentos odontológicos.
-            </p>
+            Teste seusconhecimentos com o Codonto Quiz, um jogo de perguntas e respostas que tem com o intuito a divulgação de conteúdos relacionados a Biossegurança em procedimentos odontológicos.
+            </p> 
             <button className="book-button">
               Codonto Quiz
             </button>

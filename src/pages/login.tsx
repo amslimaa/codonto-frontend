@@ -13,7 +13,7 @@ export default function Login(){
         <div className="left">
           <img src="ufpi.svg" alt=""/>
           <h2>Autenticação Clinica Escola - UFPI</h2>
-          <form action="">
+          <form>
             <label htmlFor="user">Usuário</label>
             <input type="text" name="user" placeholder="Usuário" />
 

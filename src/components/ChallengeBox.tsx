@@ -1,4 +1,3 @@
-import { DH_UNABLE_TO_CHECK_GENERATOR } from 'constants';
 import { useContext } from 'react';
 import { ChallengesContext } from '../context/ChallengeContext';
 import { CountdownContext } from '../context/CountdownContext';

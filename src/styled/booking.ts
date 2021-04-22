@@ -5,7 +5,12 @@ export const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   
-
+  span{
+    color: red;
+    display: flex;
+    margin-bottom: 0.5rem;
+    font-size: 0.7rem;
+  }
   .section {
     height: 100vh;
     display: flex;
@@ -37,7 +42,9 @@ export const MainContainer = styled.div`
         border-radius: 8px;
         padding: 0 24px;
         margin-bottom: 1rem;
+        
       }
+      
       select {
         width: 100%;
         height: 60px;
