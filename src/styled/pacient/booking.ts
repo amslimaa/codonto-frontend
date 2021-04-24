@@ -41,10 +41,11 @@ export const MainContainer = styled.div`
         border: 1px solid #dcdce6;
         border-radius: 8px;
         padding: 0 24px;
-        margin-bottom: 1rem;
-        
+        margin-bottom: 1rem;     
       }
-      
+      form button {
+        margin-bottom: 1rem;
+      }
       select {
         width: 100%;
         height: 60px;

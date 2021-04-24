@@ -13,8 +13,14 @@ import { MainContainer } from '../../styled/pacient/booking';
 import swal from 'sweetalert';
 import Link from 'next/link';
 
+import { useAuth } from '../../context/AuthContext';
 
 export default function pacient() {
+
+  const {user, login, logout} = useAuth();
+
+  console.log({user});
+
 
   type inputForms = {
     name: string,
@@ -38,6 +44,7 @@ export default function pacient() {
     try {
       const response = await api.post('/pacients', data);
       console.log(response.data)
+      login(response.data);
       swal(
         "Cadastro realizado!",
         "Aguarde o contato para agendamento",
@@ -92,3 +99,4 @@ export default function pacient() {
     </MainContainer>
   )
 }
+

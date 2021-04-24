@@ -12,12 +12,31 @@ export const Heading = styled.div`
   img{
     width: 100%;
   }
-  
 `
-
 export const FormDiv = styled.div`
   max-width: 350px;
   flex-direction: row;
+  
+  form select {
+    width: 100%;
+    height: 60px;
+    color: #333;
+    border: 1px solid #dcdce6;
+    border-radius: 8px;
+    padding: 0 24px;
+    margin-bottom: 1rem;
+    background-color: #fff
+  }
+  form textarea {
+    width: 100%;
+    height: 60px;
+    color: #333;
+    border: 1px solid #dcdce6;
+    border-radius: 8px;
+    padding: 0 24px;
+    margin-bottom: 1rem;
+    max-width: 350px;
+  }
   input {
     width: 100%;
     height: 60px;
@@ -34,6 +53,7 @@ export const FormDiv = styled.div`
     color: red;
     margin-bottom: 2rem;
   }
-
-
+  button{
+    
+  }
 `

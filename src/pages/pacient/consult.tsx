@@ -15,7 +15,6 @@ export default function consult(){
     phone: string,
     birth: string,
   };
-
   const pacientFormSchema = yup.object().shape({
     phone: yup.string().required('Telefone é obrigatório.'),
     birth: yup.date().required('Data de nascimento é obrigatório.'),
@@ -43,8 +42,6 @@ export default function consult(){
       swal("Desculpe", 'Não encontramos nenhum paciente com esses dados!', "error");
     }
   }
-
-
   return (
     <MainContainer>
       <Heading>
@@ -55,13 +52,13 @@ export default function consult(){
         <form onSubmit={handleSubmit(onSubmit)}>
           <label htmlFor="phone">Telefone</label>
           <input type="text" name='phone ' placeholder="(86) 9 9999-9999" {...register('phone')}/>
+          {errors.phone && <span className='errorMessage'>{errors.phone.message}</span> }
           
           <label htmlFor="date" >Data de nascimento</label>
           <input type="date" name="birth"{...register('birth')} />
-
+          {errors.birth && <span className='errorMessage'>Data inválida</span> }
           <button type="submit" className="button">Consultar</button>
         </form>
-        
       </FormDiv>
     </MainContainer>
   )
