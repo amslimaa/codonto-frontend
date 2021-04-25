@@ -12,7 +12,6 @@ interface AuthType {
   user: userType,
   login: (user: userType) => void,
   logout: () => void,
-  setLocalStorage: (user: userType) => void
 }
 
 const defaultUserObj = {
@@ -30,13 +29,15 @@ const AuthDefault: AuthType = {
   user: defaultUser,
   login: () => { },
   logout: () => { },
-  setLocalStorage: () => { }
 }
 
 const AuthContext = createContext<AuthType>(AuthDefault);
 
 export function useAuth() {
   return useContext(AuthContext);
+}
+const setLocalStorage = (user: userType) => {
+  localStorage.setItem('data', JSON.stringify(user));
 }
 
 export function AuthProvider({ children }) {
@@ -47,16 +48,14 @@ export function AuthProvider({ children }) {
     setUser(user);
   };
   const logout = () => {
+    setLocalStorage(user)
     setUser(defaultUser);
   };
-  const setLocalStorage = (user) => {
-    localStorage.setItem('data', JSON.stringify(user));
-  }
+  
   const value = {
     user,
     login,
-    logout,
-    setLocalStorage
+    logout
   };
 
   return (

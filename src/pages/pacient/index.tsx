@@ -20,8 +20,7 @@ export default function pacient() {
   const {user, login, logout} = useAuth();
 
   console.log({user});
-
-
+  
   type inputForms = {
     name: string,
     phone: string,
