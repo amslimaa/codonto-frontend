@@ -8,12 +8,19 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import swal from 'sweetalert';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useAuth } from '../../context/AuthContext';
 
 export default function anamnese() {
 
+  const {user, login, logout} = useAuth();
+  
+
+
+
   const [hadSympton, setHadSympton] = useState(true);
   const [hadCovid, setHadCovid] = useState(true);
+
 
   type inputForms = {
     had_symptom: boolean;
@@ -38,6 +45,10 @@ export default function anamnese() {
       .when('had_symptom', {
         is: true,
         then: yup.string().required('Data inválida')
+      })
+      .when('had_symptom', {
+        is: false,
+        then: yup.string().default(null)
       }),
     had_covid: yup.boolean().required('Campo obrigartório'),
     date_of_diagnosis: 
@@ -45,6 +56,10 @@ export default function anamnese() {
       .when('had_symptom', {
         is: true,
         then: yup.string().required('Data inválida')
+      })
+      .when('had_symptom', {
+        is: false,
+        then: yup.string().default(null)
       }),
     covid_cases_cycle: yup.boolean().required('Campo obrigartório'),
     death_case_by_covid: yup.boolean().required('Campo obrigartório'),
@@ -54,8 +69,16 @@ export default function anamnese() {
     resolver: yupResolver(pacientFormSchema)
   });
   const onSubmit = async (data) => {
+
+   const pacient_id = user.id;
+   if( !data.had_covid ) data.date_of_diagnosis = null;
+   if( !data.symptoms ) data.day_of_first_sympton = null;
+   
     try {
-      const response = await api.post('/anamneses', data);
+      const response = await api.post('/anamneses', {
+        pacient_id,
+        ...data
+      });
       console.log(response.data)
       swal(
         "Anamnese realizado!",
@@ -63,12 +86,23 @@ export default function anamnese() {
         "success"
       );
     } catch (error) {
-      console.log(error.response.data)
+      console.log(error.response)
       swal("Um momento", 'Estamos enfrentando uma instabilidade', "error");
     }
   }
+
+
+  useEffect(() => {
+     swal(
+      `Bem vindo ${user.name}`,
+      "Para garantirmos a sua segurança, precisamos que responda algumas questões antes de agendarmos sua consulta",
+      "success"
+    )
+  }, [])
+
   return (
     <MainContainer>
+      
       <Heading>
         <img src="../ufpi.svg" alt="" />
         <h2>Anamnese SARS COV-19</h2>
@@ -90,11 +124,11 @@ export default function anamnese() {
           {hadSympton && (<>
             
             <label htmlFor="symptoms">Descreva o que você sentiu</label>
-            <textarea id="symptoms" name="symptoms" rows={4}></textarea>
+            <textarea id="symptoms" name="symptoms"  rows={4} {...register('symptoms')}></textarea>
             {errors.symptoms && <span className='errorMessage'>{errors.symptoms.message}</span>}
 
             <label htmlFor="day_of_first_sympton">Data do primeiro sintoma</label>
-            <input id="day_of_first_sympton" type="date" name="day_of_first_sympton"  {...register('day_of_first_sympton')} />
+            <input id="day_of_first_sympton" type="date" defaultValue={null}  name="day_of_first_sympton"  {...register('day_of_first_sympton')} />
             {errors.day_of_first_sympton && <span className='errorMessage'>{errors.day_of_first_sympton.message}</span>}
 
             
@@ -115,7 +149,7 @@ export default function anamnese() {
 
           {hadCovid && (<>
             <label htmlFor="date_of_diagnosis">Data do exame</label>
-            <input id="date_of_diagnosis" type="date" name="date_of_diagnosis"  {...register('date_of_diagnosis')} />
+            <input id="date_of_diagnosis" type="date" defaultValue={null} name="date_of_diagnosis"  {...register('date_of_diagnosis')} />
             {errors.date_of_diagnosis && <span className='errorMessage'>Data inválida</span>}
           </>)}
 

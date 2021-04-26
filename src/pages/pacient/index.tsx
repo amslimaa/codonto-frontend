@@ -13,13 +13,16 @@ import { MainContainer } from '../../styled/pacient/booking';
 import swal from 'sweetalert';
 import Link from 'next/link';
 
+import { useRouter } from 'next/router'
+
 import { useAuth } from '../../context/AuthContext';
 
 export default function pacient() {
 
+  const router = useRouter();
+
   const {user, login, logout} = useAuth();
 
-  console.log({user});
   
   type inputForms = {
     name: string,
@@ -42,15 +45,15 @@ export default function pacient() {
   const onSubmit = async (data: inputForms) => {
     try {
       const response = await api.post('/pacients', data);
-      console.log(response.data)
       login(response.data);
       swal(
         "Cadastro realizado!",
         "Aguarde o contato para agendamento",
         "success"
-      );
+      ).then(() => {
+        router.push('/pacient/anamnese')
+      });;
     } catch (error) {
-      console.log(error.response.data)
       swal("Um momento", 'Paciente ja cadastrado', "error");
     }
   }
@@ -88,7 +91,9 @@ export default function pacient() {
 
             <button className="button" type="submit">Continuar para anmnese</button>
 
-            <Link href='/pacient/consult'>Agendamentos</Link>
+            <Link href='/pacient/consult'>
+              <button className="button"> Ver agendamentos</button>
+            </Link>
           </form>
         </div>
         <div className="right">

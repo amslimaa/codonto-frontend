@@ -48,8 +48,7 @@ export function AuthProvider({ children }) {
     setUser(user);
   };
   const logout = () => {
-    setLocalStorage(user)
-    setUser(defaultUser);
+    localStorage.removeItem('data');
   };
   
   const value = {
