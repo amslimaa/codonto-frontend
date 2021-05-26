@@ -1,3 +1,5 @@
+
+import { useRouter } from 'next/router'
 import { MainContainer, FormDiv, Heading } from '../../styled/pacient/anamnese';
 
 import api from '../../services/api';
@@ -5,7 +7,7 @@ import { useForm } from 'react-hook-form';
 
 import * as yup from 'yup';
 
-import { yupResolver } from '@hookform/resolvers/yup'
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import swal from 'sweetalert';
 import { useState, useEffect } from 'react';
@@ -13,14 +15,13 @@ import { useAuth } from '../../context/AuthContext';
 
 export default function anamnese() {
 
-  const {user, login, logout} = useAuth();
+  const {user, logout} = useAuth();
   
-
-
+  const router = useRouter();
 
   const [hadSympton, setHadSympton] = useState(true);
+  
   const [hadCovid, setHadCovid] = useState(true);
-
 
   type inputForms = {
     had_symptom: boolean;
@@ -73,18 +74,19 @@ export default function anamnese() {
    const pacient_id = user.id;
    if( !data.had_covid ) data.date_of_diagnosis = null;
    if( !data.symptoms ) data.day_of_first_sympton = null;
-   
     try {
       const response = await api.post('/anamneses', {
         pacient_id,
         ...data
       });
-      console.log(response.data)
       swal(
         "Anamnese realizado!",
         "Aguarde o contato para agendamento",
         "success"
-      );
+      )
+      .then(() => {
+        router.push('/pacient/consult')
+      });
     } catch (error) {
       console.log(error.response)
       swal("Um momento", 'Estamos enfrentando uma instabilidade', "error");
@@ -109,7 +111,7 @@ export default function anamnese() {
       </Heading>
       <FormDiv>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <label htmlFor="had_symptom">Você presentou algum sintoma nos ultimos 15 dias?</label>
+          <label htmlFor="had_symptom">Você presentou algum sintoma nos ultimos 21 dias?</label>
           <select
             id="had_symptom"
             name="had_symptom"

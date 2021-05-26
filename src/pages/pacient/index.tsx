@@ -48,13 +48,19 @@ export default function pacient() {
       login(response.data);
       swal(
         "Cadastro realizado!",
-        "Aguarde o contato para agendamento",
+        "Pra agilizar seu atentimento precisamos que responda algumas perguntas!",
         "success"
       ).then(() => {
         router.push('/pacient/anamnese')
-      });;
+      });
     } catch (error) {
-      swal("Um momento", 'Paciente ja cadastrado', "error");
+      swal(
+        "Paciente ja cadastrado", 
+        'Tente consultar seu agendamento com o seu numero de telefone e data de nascimento!', 
+        "error")
+        .then(() => {
+          router.push('/pacient/consult')
+        });
     }
   }
 
@@ -91,9 +97,7 @@ export default function pacient() {
 
             <button className="button" type="submit">Continuar para anmnese</button>
 
-            <Link href='/pacient/consult'>
-              <button className="button"> Ver agendamentos</button>
-            </Link>
+            
           </form>
         </div>
         <div className="right">
