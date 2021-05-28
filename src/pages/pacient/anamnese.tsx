@@ -13,14 +13,16 @@ import swal from 'sweetalert';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 
+import * as dateFns from 'date-fns'
+
 export default function anamnese() {
 
-  const {user, logout} = useAuth();
-  
+  const { user, logout } = useAuth();
+
   const router = useRouter();
 
   const [hadSympton, setHadSympton] = useState(true);
-  
+
   const [hadCovid, setHadCovid] = useState(true);
 
   type inputForms = {
@@ -35,33 +37,37 @@ export default function anamnese() {
 
   const pacientFormSchema = yup.object().shape({
     had_symptom: yup.boolean().required('Campo obrigartório'),
-    symptoms: 
+    symptoms:
       yup.string()
-      .when('had_symptom', {
-        is: true,
-        then: yup.string().required('Campo inválido')
-      }),
-    day_of_first_sympton: 
+        .when('had_symptom', {
+          is: true,
+          then: yup.string().required('Campo inválido')
+        })
+        .when('had_symptom', {
+          is: false,
+          then: yup.string().default(null)
+        }),
+    day_of_first_sympton:
       yup.string()
-      .when('had_symptom', {
-        is: true,
-        then: yup.string().required('Data inválida')
-      })
-      .when('had_symptom', {
-        is: false,
-        then: yup.string().default(null)
-      }),
+        .when('had_symptom', {
+          is: true,
+          then: yup.string().required('Data inválida')
+        })
+        .when('had_symptom', {
+          is: false,
+          then: yup.string().default(null)
+        }),
     had_covid: yup.boolean().required('Campo obrigartório'),
-    date_of_diagnosis: 
+    date_of_diagnosis:
       yup.string()
-      .when('had_symptom', {
-        is: true,
-        then: yup.string().required('Data inválida')
-      })
-      .when('had_symptom', {
-        is: false,
-        then: yup.string().default(null)
-      }),
+        .when('had_covid', {
+          is: true,
+          then: yup.string().required('Data inválida')
+        })
+        .when('had_covid', {
+          is: false,
+          then: yup.string().default(null)
+        }),
     covid_cases_cycle: yup.boolean().required('Campo obrigartório'),
     death_case_by_covid: yup.boolean().required('Campo obrigartório'),
   });
@@ -69,33 +75,72 @@ export default function anamnese() {
   const { register, handleSubmit, formState: { errors } } = useForm<inputForms>({
     resolver: yupResolver(pacientFormSchema)
   });
-  const onSubmit = async (data) => {
 
-   const pacient_id = user.id;
-   if( !data.had_covid ) data.date_of_diagnosis = null;
-   if( !data.symptoms ) data.day_of_first_sympton = null;
-    try {
-      const response = await api.post('/anamneses', {
-        pacient_id,
-        ...data
-      });
-      swal(
-        "Anamnese realizado!",
-        "Aguarde o contato para agendamento",
-        "success"
-      )
+
+
+
+  async function createAnamnese(data) {
+  const pacient_id = user.id;
+  if (!data.had_covid) data.date_of_diagnosis = null;
+  if (!data.symptoms) data.day_of_first_sympton = null;
+  try {
+    const response = await api.post('/anamneses', {
+      pacient_id,
+      ...data
+    });
+    swal(
+      "Anamnese realizado!",
+      "Aguarde o contato para agendamento",
+      "success"
+    )
       .then(() => {
         router.push('/pacient/consult')
       });
-    } catch (error) {
-      console.log(error.response)
-      swal("Um momento", 'Estamos enfrentando uma instabilidade', "error");
+  } catch (error) {
+    console.log(error.response)
+    swal("Um momento", 'Estamos enfrentando uma instabilidade', "error");
+  }
+ }
+
+
+  const onSubmit = async (data) => {
+
+    const { had_symptom, day_of_first_sympton, had_covid, date_of_diagnosis } = data;
+
+    if (had_symptom) {
+      const pastDays = dateFns.differenceInCalendarDays(new Date, Date.parse(day_of_first_sympton))
+      if (pastDays <= 36) {
+        swal(
+          "Desculpe!",
+          "Pacientes que apresentaram sintomas nos ultimos 21 dias so devem ser atendidos apenas apos 15 dias do fim dos sintomas!",
+          "error"
+        ).then(() => {
+          router.push('/')
+        });
+      }else {
+        createAnamnese(data);
+      }
+    } else if (had_covid) {
+      const daysPastBydiagnosis = dateFns.differenceInCalendarDays(new Date, Date.parse(date_of_diagnosis));
+      if (daysPastBydiagnosis <= 36) {
+        swal(
+          "Desculpe!",
+          "Pacientes que apresentaram sintomas nos ultimos 21 dias so devem ser atendidos apenas apos 15 dias do fim dos sintomas!",
+          "error"
+        ).then(() => {
+          router.push('/')
+        });
+      }else{
+        createAnamnese(data);
+      }
+    } else{
+      createAnamnese(data);
+
     }
   }
 
-
   useEffect(() => {
-     swal(
+    swal(
       `Bem vindo ${user.name}`,
       "Para garantirmos a sua segurança, precisamos que responda algumas questões antes de agendarmos sua consulta",
       "success"
@@ -104,7 +149,7 @@ export default function anamnese() {
 
   return (
     <MainContainer>
-      
+
       <Heading>
         <img src="../ufpi.svg" alt="" />
         <h2>Anamnese SARS COV-19</h2>
@@ -124,16 +169,16 @@ export default function anamnese() {
           {errors.had_symptom && <span className='errorMessage'>{errors.had_symptom.message}</span>}
 
           {hadSympton && (<>
-            
+
             <label htmlFor="symptoms">Descreva o que você sentiu</label>
-            <textarea id="symptoms" name="symptoms"  rows={4} {...register('symptoms')}></textarea>
+            <textarea id="symptoms" name="symptoms" rows={4} {...register('symptoms')}></textarea>
             {errors.symptoms && <span className='errorMessage'>{errors.symptoms.message}</span>}
 
             <label htmlFor="day_of_first_sympton">Data do primeiro sintoma</label>
-            <input id="day_of_first_sympton" type="date" defaultValue={null}  name="day_of_first_sympton"  {...register('day_of_first_sympton')} />
+            <input id="day_of_first_sympton" type="date" defaultValue={null} name="day_of_first_sympton"  {...register('day_of_first_sympton')} />
             {errors.day_of_first_sympton && <span className='errorMessage'>{errors.day_of_first_sympton.message}</span>}
 
-            
+
           </>
           )}
 
@@ -142,10 +187,10 @@ export default function anamnese() {
             id="had_covid"
             name="had_covid"
             {...register('had_covid')}
-            onChange={ () => setHadCovid(!hadCovid)}
+            onChange={() => setHadCovid(!hadCovid)}
           >
             <option value="true">Sim</option>
-            <option value="false">Nao</option>
+            <option value="false">Não</option>
           </select>
           {errors.had_covid && <span className='errorMessage'>{errors.had_covid.message}</span>}
 
@@ -160,7 +205,7 @@ export default function anamnese() {
           <label htmlFor="covid_cases_cycle">Você teve algum familiar diagnosticado com covid?</label>
           <select id="covid_cases_cycle" name="covid_cases_cycle" {...register('covid_cases_cycle')} >
             <option value="true">Sim</option>
-            <option value="false">Nao</option>
+            <option value="false">Não</option>
           </select>
           {errors.covid_cases_cycle && <span className='errorMessage'>{errors.covid_cases_cycle.message}</span>}
 
@@ -169,7 +214,7 @@ export default function anamnese() {
           <label htmlFor="death_case_by_covid">Você perdeu alguém perdeu algum familiar</label>
           <select id="death_case_by_covid" name="death_case_by_covid" {...register('death_case_by_covid')} >
             <option value="true">Sim</option>
-            <option value="false">Nao</option>
+            <option value="false">Não</option>
           </select>
           {errors.death_case_by_covid && <span className='errorMessage'>{errors.death_case_by_covid.message}</span>}
 

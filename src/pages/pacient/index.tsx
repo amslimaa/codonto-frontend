@@ -48,8 +48,7 @@ export default function pacient() {
   
 
   const onSubmit = async (data: inputForms) => {
-    const  birth = data.birth;
-    let age = dateFns.differenceInCalendarYears(new Date(), Date.parse(birth));
+    let age = dateFns.differenceInCalendarYears(new Date(), Date.parse(data.birth));
     if( age >= 60 ){
 
       swal(
@@ -116,8 +115,11 @@ export default function pacient() {
             {errors.gen && <span className='errorMessage'>{errors.gen.message}</span> }
 
             <button className="button" type="submit">Continuar para anmnese</button>
-
-            
+            <button className="button">
+              <Link href="/pacient/consult" passHref>
+                <a>Consultar andamento</a> 
+              </Link>
+            </button>     
           </form>
         </div>
         <div className="right">
