@@ -17,6 +17,8 @@ import { useRouter } from 'next/router'
 
 import { useAuth } from '../../context/AuthContext';
 
+import * as dateFns from 'date-fns'
+
 export default function pacient() {
 
   const router = useRouter();
@@ -42,26 +44,44 @@ export default function pacient() {
   const { register, handleSubmit, formState: { errors } } = useForm<inputForms>({
     resolver: yupResolver(pacientFormSchema)
   });
+
+  
+
   const onSubmit = async (data: inputForms) => {
-    try {
-      const response = await api.post('/pacients', data);
-      login(response.data);
+    const  birth = data.birth;
+    let age = dateFns.differenceInCalendarYears(new Date(), Date.parse(birth));
+    if( age >= 60 ){
+
       swal(
-        "Cadastro realizado!",
-        "Pra agilizar seu atentimento precisamos que responda algumas perguntas!",
-        "success"
+        "Desculpe",
+        "Pacientes com mais de 60 anos só devem ser atendidos na fase de desaceleração da epidemia!",
+        "error"
       ).then(() => {
-        router.push('/pacient/anamnese')
+        router.push('/')
       });
-    } catch (error) {
-      swal(
-        "Paciente ja cadastrado", 
-        'Tente consultar seu agendamento com o seu numero de telefone e data de nascimento!', 
-        "error")
-        .then(() => {
-          router.push('/pacient/consult')
+
+    }else {
+      try {
+        const response = await api.post('/pacients', data);
+        login(response.data);
+        swal(
+          "Cadastro realizado!",
+          "Pra agilizar seu atentimento precisamos que responda algumas perguntas!",
+          "success"
+        ).then(() => {
+          router.push('/pacient/anamnese')
         });
+      } catch (error) {
+        swal(
+          "Paciente ja cadastrado", 
+          'Tente consultar seu agendamento com o seu numero de telefone e data de nascimento!', 
+          "error")
+          .then(() => {
+            router.push('/pacient/consult')
+          });
+      }
     }
+    
   }
 
   return (

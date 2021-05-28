@@ -111,7 +111,7 @@ export default function anamnese() {
       </Heading>
       <FormDiv>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <label htmlFor="had_symptom">Você presentou algum sintoma nos ultimos 21 dias?</label>
+          <label htmlFor="had_symptom">Você apresentou algum sintoma nos ultimos 21 dias?</label>
           <select
             id="had_symptom"
             name="had_symptom"
