@@ -76,9 +76,6 @@ export default function anamnese() {
     resolver: yupResolver(pacientFormSchema)
   });
 
-
-
-
   async function createAnamnese(data) {
   const pacient_id = user.id;
   if (!data.had_covid) data.date_of_diagnosis = null;
@@ -200,18 +197,14 @@ export default function anamnese() {
             {errors.date_of_diagnosis && <span className='errorMessage'>Data inválida</span>}
           </>)}
 
-
-
-          <label htmlFor="covid_cases_cycle">Você teve algum familiar diagnosticado com covid?</label>
+          <label htmlFor="covid_cases_cycle">Você tem alguma doença crônica?</label>
           <select id="covid_cases_cycle" name="covid_cases_cycle" {...register('covid_cases_cycle')} >
             <option value="true">Sim</option>
             <option value="false">Não</option>
           </select>
           {errors.covid_cases_cycle && <span className='errorMessage'>{errors.covid_cases_cycle.message}</span>}
 
-
-
-          <label htmlFor="death_case_by_covid">Você perdeu alguém perdeu algum familiar</label>
+          <label htmlFor="death_case_by_covid">Você teve contato com parente ou amigo com suspeita ou confirmação de COVID-19?</label>
           <select id="death_case_by_covid" name="death_case_by_covid" {...register('death_case_by_covid')} >
             <option value="true">Sim</option>
             <option value="false">Não</option>

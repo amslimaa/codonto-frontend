@@ -106,7 +106,6 @@ export default function pacient() {
             <input type="date" name="date-born" placeholder="Data de nascimento" {...register('birth')} />
             {errors.birth && <span className='errorMessage'>Data inválida</span>}
 
-
             <label htmlFor="sex">Sexo</label>
             <select name="sex" {...register('gen')} >
               <option value="M">Masculino</option>
@@ -130,4 +129,3 @@ export default function pacient() {
     </MainContainer>
   )
 }
-
