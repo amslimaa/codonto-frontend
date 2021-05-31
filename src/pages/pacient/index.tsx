@@ -23,9 +23,9 @@ export default function pacient() {
 
   const router = useRouter();
 
-  const {user, login, logout} = useAuth();
+  const { user, login, logout } = useAuth();
 
-  
+
   type inputForms = {
     name: string,
     phone: string,
@@ -45,11 +45,11 @@ export default function pacient() {
     resolver: yupResolver(pacientFormSchema)
   });
 
-  
+
 
   const onSubmit = async (data: inputForms) => {
     let age = dateFns.differenceInCalendarYears(new Date(), Date.parse(data.birth));
-    if( age >= 60 ){
+    if (age >= 60) {
 
       swal(
         "Desculpe",
@@ -59,7 +59,7 @@ export default function pacient() {
         router.push('/')
       });
 
-    }else {
+    } else {
       try {
         const response = await api.post('/pacients', data);
         login(response.data);
@@ -72,15 +72,15 @@ export default function pacient() {
         });
       } catch (error) {
         swal(
-          "Paciente ja cadastrado", 
-          'Tente consultar seu agendamento com o seu numero de telefone e data de nascimento!', 
+          "Paciente ja cadastrado",
+          'Tente consultar seu agendamento com o seu numero de telefone e data de nascimento!',
           "error")
           .then(() => {
             router.push('/pacient/consult')
           });
       }
     }
-    
+
   }
 
   return (
@@ -95,16 +95,16 @@ export default function pacient() {
           <h2>Agendamento Clínica Escola UFPI</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
             <label htmlFor="name">Nome</label>
-            <input type="text" name="name" placeholder="Nome" {...register('name')}/>
-            {errors.name && <span className='errorMessage'>{errors.name.message}</span> }
+            <input type="text" name="name" placeholder="Nome" {...register('name')} />
+            {errors.name && <span className='errorMessage'>{errors.name.message}</span>}
 
             <label htmlFor="telefone">Telefone</label>
             <input type="text" name="telefone" placeholder="(00) 9 0000-0000"   {...register('phone')} />
-            {errors.phone && <span className='errorMessage'>{errors.phone.message}</span> }
+            {errors.phone && <span className='errorMessage'>{errors.phone.message}</span>}
 
             <label htmlFor="date-born">Data de Nascimento</label>
             <input type="date" name="date-born" placeholder="Data de nascimento" {...register('birth')} />
-            {errors.birth && <span className='errorMessage'>Data inválida</span> }
+            {errors.birth && <span className='errorMessage'>Data inválida</span>}
 
 
             <label htmlFor="sex">Sexo</label>
@@ -112,15 +112,16 @@ export default function pacient() {
               <option value="M">Masculino</option>
               <option value="F">Feminino</option>
             </select>
-            {errors.gen && <span className='errorMessage'>{errors.gen.message}</span> }
+            {errors.gen && <span className='errorMessage'>{errors.gen.message}</span>}
 
             <button className="button" type="submit">Continuar para anmnese</button>
-            <button className="button">
-              <Link href="/pacient/consult" passHref>
-                <a>Consultar andamento</a> 
-              </Link>
-            </button>     
+
           </form>
+          <Link href="/pacient/consult" passHref>
+            <button className="button">
+              <a>Consultar andamento</a>
+            </button>
+          </Link>
         </div>
         <div className="right">
           <img src="../Cadastro.svg" alt="Cadastro img" />
